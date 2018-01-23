@@ -1,11 +1,11 @@
-def get_cook_book(link):
+def get_cook_book(filename):
     cook_book = {}
-    with open(link, encoding='utf8') as recipes:
+    with open(filename, encoding='utf8') as recipes:
         for line in recipes:
             dish = line.strip().lower()
             ingredients = []
             ingredients_count = int(recipes.readline())
-            for i in range(0, ingredients_count):
+            for i in range(ingredients_count):
                 ingredient = recipes.readline().strip().split(' | ')
                 ingredients.append({
                     'ingredient_name': ingredient[0],
@@ -17,9 +17,9 @@ def get_cook_book(link):
     return cook_book
 
 
-def get_shop_list_by_dishes(dishes, person_count, cookbook):
+def get_shop_list_by_dishes(dishes, person_count, cook_book_name):
     shop_list = {}
-    cook_book = get_cook_book(cookbook)
+    cook_book = get_cook_book(cook_book_name)
     for dish in dishes:
         for ingredient in cook_book[dish]:
             new_shop_list_item = dict(ingredient)
@@ -37,10 +37,10 @@ def print_shop_list(shop_list):
         print('{} {} {}'.format(shop_list_item['ingredient_name'], shop_list_item['quantity'], shop_list_item['measure']))
 
 
-def create_shop_list(cookbook):
+def create_shop_list(cook_book_name):
     person_count = int(input('Введите количество человек: '))
     dishes = input('Введите блюда в расчете на одного человека (через запятую): ').lower().split(', ')
-    shop_list = get_shop_list_by_dishes(dishes, person_count, cookbook)
+    shop_list = get_shop_list_by_dishes(dishes, person_count, cook_book_name)
     print_shop_list(shop_list)
 
 
